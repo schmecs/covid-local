@@ -5,7 +5,9 @@
 
     <data>
 
-        <import type="com.rebeccablum.covidlocal.models.CurrentStateInfo"/>
+        <import type="com.rebeccablum.covidlocal.models.CurrentStateInfo" />
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -28,9 +30,9 @@
 
             <AutoCompleteTextView
                 android:id="@+id/select_state_text_view"
-                android:editable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -39,40 +41,41 @@
             android:id="@+id/state_abbrev"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:gravity="center"
             android:layout_marginTop="16dp"
-            android:text='@{viewModel.selectedState != null ? viewModel.selectedState.state : ""}'
-            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center"
+            android:text="@{viewModel.selectedState.state}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/select_state_dropdown"
-            tools:text="RI"/>
+            tools:text="RI" />
 
         <TextView
             android:id="@+id/state_positive_cases_num"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
-            android:gravity="center"
             android:layout_marginTop="16dp"
+            android:gravity="center"
             android:text="@{Integer.toString(viewModel.selectedState.positive)}"
-            app:layout_constraintTop_toBottomOf="@id/state_abbrev"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
+            android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="100"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/state_abbrev"
+            tools:text="100" />
 
         <TextView
             android:id="@+id/state_positive_cases_descript"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:gravity="center"
-            android:text="positive cases"
-            app:layout_constraintTop_toBottomOf="@id/state_positive_cases_num"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/positive_cases"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:visibility="@{viewModel.selectedState.positive != null ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/state_positive_cases_num" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

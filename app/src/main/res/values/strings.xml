@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">COVID Local</string>
+    <string name="positive_cases">positive cases</string>
 </resources>
