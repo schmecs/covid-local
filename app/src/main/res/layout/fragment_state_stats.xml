@@ -5,75 +5,233 @@
 
     <data>
 
-        <import type="com.rebeccablum.covidlocal.models.CurrentStateInfo"/>
+        <import type="com.rebeccablum.covidlocal.models.CurrentStateInfo" />
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
             type="com.rebeccablum.covidlocal.viewmodels.StateStatsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/select_state_dropdown"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Select Your State"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <AutoCompleteTextView
-                android:id="@+id/select_state_text_view"
-                android:editable="false"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/select_state_dropdown"
+                style="@style/DropdownMenu"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:hint="@string/select_your_state"
+                android:labelFor="@id/select_state_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/select_state_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:inputType="none" />
 
-        <TextView
-            android:id="@+id/state_abbrev"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:text='@{viewModel.selectedState != null ? viewModel.selectedState.state : ""}'
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/select_state_dropdown"
-            tools:text="RI"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/state_positive_cases_num"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="@{Integer.toString(viewModel.selectedState.positive)}"
-            app:layout_constraintTop_toBottomOf="@id/state_abbrev"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="100"
-            />
+            <TextView
+                android:id="@+id/state_abbrev"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@{viewModel.selectedState.state}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/select_state_dropdown"
+                tools:text="RI" />
 
-        <TextView
-            android:id="@+id/state_positive_cases_descript"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:gravity="center"
-            android:text="positive cases"
-            app:layout_constraintTop_toBottomOf="@id/state_positive_cases_num"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            <TextView
+                android:id="@+id/date_updated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text='@{"Data last updated: " + viewModel.selectedState.lastUpdateEt}'
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_abbrev"
+                tools:text="Data last updated: 4/22 0:00" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/state_positive_cases_num"
+                style="@style/IntStat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedState.positiveString}"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toStartOf="@id/state_negative_cases_num"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_updated"
+                tools:text="100" />
+
+            <TextView
+                android:id="@+id/state_positive_cases_description"
+                style="@style/StatDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/positive_cases"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toStartOf="@id/state_negative_cases_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_positive_cases_num" />
+
+            <TextView
+                android:id="@+id/state_negative_cases_num"
+                style="@style/IntStat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedState.negativeString}"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/state_positive_cases_num"
+                app:layout_constraintTop_toBottomOf="@id/date_updated"
+                tools:text="100" />
+
+            <TextView
+                android:id="@+id/state_negative_cases_description"
+                style="@style/StatDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/negative_cases"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/state_positive_cases_description"
+                app:layout_constraintTop_toBottomOf="@id/state_negative_cases_num" />
+
+            <TextView
+                android:id="@+id/state_percent_positive_num"
+                style="@style/IntStat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedState.percentPositiveString}"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_negative_cases_description"
+                tools:text="0.3%" />
+
+            <TextView
+                android:id="@+id/state_percent_positive_description"
+                style="@style/StatDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/positive_tests"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_percent_positive_num" />
+
+            <TextView
+                android:id="@+id/state_hospitalized_current_num"
+                style="@style/IntStat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedState.hospitalizedCurrentlyString}"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toStartOf="@id/state_hospitalized_cumulative_num"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_percent_positive_description"
+                tools:text="100" />
+
+            <TextView
+                android:id="@+id/state_hospitalized_current_description"
+                style="@style/StatDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/currently_hospitalized"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toStartOf="@id/state_hospitalized_cumulative_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_hospitalized_current_num" />
+
+            <TextView
+                android:id="@+id/state_hospitalized_cumulative_num"
+                style="@style/IntStat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedState.hospitalizedCumulativeString}"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/state_hospitalized_current_num"
+                app:layout_constraintTop_toBottomOf="@id/state_percent_positive_description"
+                tools:text="100" />
+
+            <TextView
+                android:id="@+id/state_hospitalized_cumulative_description"
+                style="@style/StatDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/total_hospitalizations"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/state_hospitalized_current_description"
+                app:layout_constraintTop_toBottomOf="@id/state_hospitalized_current_num" />
+
+            <TextView
+                android:id="@+id/state_deaths_num"
+                style="@style/IntStat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedState.deathsString}"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_hospitalized_current_description"
+                tools:text="5" />
+
+            <TextView
+                android:id="@+id/state_deaths_description"
+                style="@style/StatDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/deaths"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_deaths_num" />
+
+            <TextView
+                android:id="@+id/state_mortality_rate_num"
+                style="@style/IntStat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedState.mortalityRateString}"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_deaths_description"
+                tools:text="1%" />
+
+            <TextView
+                android:id="@+id/state_mortality_rate_description"
+                style="@style/StatDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/mortality_rate_for_known_positives"
+                android:visibility="@{viewModel.selectedState != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/state_mortality_rate_num" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </layout>
