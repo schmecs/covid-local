@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">COVID Local</string>
     <string name="positive_cases">positive cases</string>
+    <string name="negative_cases">negative cases</string>
+    <string name="currently_hospitalized">currently hospitalized</string>
+    <string name="total_hospitalizations">total hospitalizations</string>
+    <string name="positive_tests">positive tests</string>
+    <string name="deaths">deaths</string>
+    <string name="mortality_rate_for_known_positives">mortality rate (for known positives)</string>
+    <string name="select_your_state">Select Your State</string>
 </resources>
